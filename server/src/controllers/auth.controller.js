@@ -32,7 +32,9 @@ const Register= asyncHandler(async (req,res)=>{
 
 
     user.refreshTokenHash = await hashToken(refreshToken);
+    console.log("saving hash:", user.refreshTokenHash)
     await user.save({ validateBeforeSave: false });
+    console.log("saved")
 
     setRefreshCookie(res, refreshToken)
     
@@ -64,8 +66,10 @@ const login= asyncHandler(async (req,res)=>{
     const refreshToken= generateRefreshToken(user._id)
 
 
-    user.refreshTokenHash= await hashToken(refreshToken)
-    await user.save({validateBeforeSave: false})
+    user.refreshTokenHash = await hashToken(refreshToken);
+    console.log("saving hash:", user.refreshTokenHash)
+    await user.save({ validateBeforeSave: false });
+    console.log("saved")
 
     setRefreshCookie(res, refreshToken)
 

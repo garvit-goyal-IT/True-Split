@@ -11,6 +11,7 @@ export const clearAccessToken = () => { accessToken = null }
 
 
 api.interceptors.request.use((config) => {
+    console.log("token:", accessToken)
     if(accessToken){
         config.headers.Authorization = `Bearer ${accessToken}`
     }
@@ -20,22 +21,6 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
-    const original = error.config
-    if(error.response?.status === 401 && !original._retry){
-         if(window.location.pathname === "/login"){
-        return Promise.reject(error)
-        }
-        original._retry = true
-        try {
-            const { data } = await api.post("/auth/refresh")
-            setAccessToken(data.accessToken)
-            original.headers.Authorization = `Bearer ${data.accessToken}`
-            return api(original)
-        } catch {
-            clearAccessToken()
-            window.location.href = "/login"
-        }
-    }
     return Promise.reject(error)
 }
 )

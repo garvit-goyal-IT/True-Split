@@ -79,7 +79,7 @@ const getGroupExpense= asyncHandler(async(req,res)=>{
     )
     if(!isMember) throw new AppError("unauthorized access", 403)
     
-    const expenses=await  Expense.find({group: groupId})
+    const expenses=await  Expense.find({group: groupId}).populate("paidBy","name")
 
     return res.status(200).json({
         success: true,

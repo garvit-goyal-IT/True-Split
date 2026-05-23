@@ -7,7 +7,7 @@ import crypto from 'node:crypto';
 
 const createGroup = asyncHandler(async(req,res)=>{
     const {name, desc} = req.body
-    if(!name || !desc) throw new AppError("name and description are required to create group", 401)
+    if(!name) throw new AppError("name are required to create group", 401)
 
     const inviteCode= crypto.randomBytes(6).toString('hex')
     const admin= req.user?._id
@@ -47,7 +47,7 @@ const getGroupById= asyncHandler(async (req,res)=>{
 
     if(!id) throw new AppError("id is missing", 401)
 
-    const group= await Group.findById(id).populate("members", "name email avatar ")
+    const group= await Group.findById(id).populate("members", "name email avatar")
     if(!group) throw new AppError("no group found", 401)
 
     const isMember= group.members.some(

@@ -1,12 +1,11 @@
 import api from "./axiosInstance"
 
-
 async function getUserGroups(){
     const {data}= await api.get("/groups") 
     return data.groups
 }
 
-async function createGroup(){
+async function createGroup(groupData){
     const {data}= await api.post("/groups", groupData)        
     return data.group
 }

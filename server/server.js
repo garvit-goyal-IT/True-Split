@@ -22,8 +22,8 @@ app.use(cors({
 
 
 app.use('/api/auth', userRoutes)
-app.use('/api/group',groupRoutes)
-app.use('/api/expense/',expenseRoutes)
+app.use('/api/groups',groupRoutes)
+app.use('/api/expenses',expenseRoutes)
 app.use('/api/settlement',settlementRoute)
 app.use('/api/activity',activityRoute)
 
