@@ -16,3 +16,8 @@ export const getCurrentUser= async()=>{
     const {data}= await api.get("/auth/me")
     return data.user
 }
+
+export const logoutUser= async()=>{
+    await api.post("/auth/logout")
+    setAccessToken(null)
+}

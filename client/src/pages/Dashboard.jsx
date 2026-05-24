@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { getUserGroups, createGroup } from "../api/group.api";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar"
+
+
 
 function Dashboard() {
     const navigate = useNavigate()
@@ -34,42 +37,78 @@ function Dashboard() {
         return <div>Loading...</div>
     }
     return (
-        <div>
-            <h2>My Groups</h2>
-            {groups?.length === 0 && <p>No groups yet. Create one!</p>}
-            {groups?.map((group) => (
-                <div className="border p-4 m-2" 
-                         key={group._id}
-                         onClick={() => navigate(`/groups/${group._id}`)}
-                         style={{ cursor: "pointer" }}
-                >
-                    <h3>{group.name}</h3>
-                    <p>{group.description}</p>
-                    <p>Members: {group.members.length}</p>
-                </div>
-            ))}
+    <>
+    <Navbar />
+    <div className="min-h-screen bg-gray-900 text-white px-6 py-10">
+        
+        {/* Header */}
+        <div className="max-w-3xl mx-auto">
+            <h1 className="text-3xl font-bold mb-1">My Groups</h1>
+            <p className="text-gray-400 text-sm mb-8">Manage your shared expenses</p>
 
-            <button onClick={() => setShowForm(true)}>Create Group</button>
+            {/* Groups Grid */}
+            {groups?.length === 0 && (
+                <p className="text-gray-500 text-center mt-20">No groups yet. Create one!</p>
+            )}
 
+            <div className="grid grid-cols-1 gap-4 mb-8">
+                {groups?.map((group) => (
+                    <div
+                        key={group._id}
+                        onClick={() => navigate(`/groups/${group._id}`)}
+                        className="bg-gray-800 border border-gray-700 rounded-xl p-5 cursor-pointer hover:border-blue-500 hover:bg-gray-750 transition"
+                    >
+                        <h3 className="text-lg font-semibold">{group.name}</h3>
+                        <p className="text-gray-400 text-sm mt-1">{group.description}</p>
+                        <p className="text-gray-500 text-xs mt-3">{group.members.length} members</p>
+                    </div>
+                ))}
+            </div>
+
+            {/* Create Group Form */}
             {showForm && (
-                <div>
+                <div className="bg-gray-800 border border-gray-700 rounded-xl p-5 mb-4">
+                    <h3 className="text-sm font-medium text-gray-300 mb-3">New Group</h3>
                     <input
                         value={groupName}
                         onChange={(e) => setGroupName(e.target.value)}
                         placeholder="Group name"
+                        className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-3"
                     />
-                    <button onClick={() => {
-                        console.log("groupName value:", groupName)
-                        createMutation.mutate({ name: groupName }) 
-                }}>
-                        Create
-                    </button>
-                    <button onClick={() => setShowForm(false)}>Cancel</button>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => createMutation.mutate({ name: groupName })}
+                            className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition"
+                        >
+                            Create
+                        </button>
+                        <button
+                            onClick={() => setShowForm(false)}
+                            className="bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm hover:bg-gray-600 transition"
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             )}
-            <button className="bg-green-200 h-8 w-20 rounded-xs"
-                onClick={(e) => console.log("join group", e)}>Join Group</button>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3">
+                <button
+                    onClick={() => setShowForm(true)}
+                    className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition"
+                >
+                    + Create Group
+                </button>
+                <button
+                    className="bg-gray-700 text-gray-300 px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition"
+                >
+                    Join Group
+                </button>
+            </div>
         </div>
-    )
+    </div>
+    </>
+)
 }
 export default Dashboard
