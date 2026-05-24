@@ -19,7 +19,7 @@ app.use(cors({
     origin: process.env.CLIENT_URL,
     credentials: true
 }))
-
+app.get("/api/health", (_req, res) => res.json({ status: "ok" }))
 
 app.use('/api/auth', userRoutes)
 app.use('/api/groups',groupRoutes)
