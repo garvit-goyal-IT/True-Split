@@ -9,6 +9,7 @@ Full Stack Expense Splitting app with greedy debt Settlement algorithm
 - Activity feed per group
 
 ## Live Demo
+[https://truesplit.vercel.app](https://truesplit.vercel.app)
 
 
 ## Tech Stack
